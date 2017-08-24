@@ -1,0 +1,14 @@
+# Folders
+.vscode/
+apache-maven-3.5.0/
+BuildData/
+Bukkit/
+CraftBukkit/
+Spigot/
+venv/
+work/
+
+# Files
+*.jar
+*.json
+BuildTools.log.txt
