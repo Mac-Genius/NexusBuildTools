@@ -47,27 +47,28 @@ def save_version_info(version_info):
 	info.write(json.dumps(version_info, indent=4, sort_keys=True))
 	info.close()
 
-def get_needed_updates(old_data, new_data):
+def get_needed_updates(old_data, new_data, config):
 	to_update = list()
 	for version in new_data:
-		update = False
-		if version in old_data:
-			if new_data[version]['refs']['Bukkit'] != old_data[version]['refs']['Bukkit']:
+		if version not in config['ignored_versions']:
+			update = False
+			if version in old_data:
+				if new_data[version]['refs']['Bukkit'] != old_data[version]['refs']['Bukkit']:
+					to_update.append(version)
+					update = True
+				if new_data[version]['refs']['CraftBukkit'] != old_data[version]['refs']['CraftBukkit']:
+					to_update.append(version)
+					update = True
+				if new_data[version]['refs']['Spigot'] != old_data[version]['refs']['Spigot']:
+					to_update.append(version)
+					update = True
+			else:
 				to_update.append(version)
 				update = True
-			if new_data[version]['refs']['CraftBukkit'] != old_data[version]['refs']['CraftBukkit']:
-				to_update.append(version)
-				update = True
-			if new_data[version]['refs']['Spigot'] != old_data[version]['refs']['Spigot']:
-				to_update.append(version)
-				update = True
-		else:
-			to_update.append(version)
-			update = True
-		if update:
-			print('Version', version, 'will be updated.')
-		else:
-			print('Version', version, 'is up to date.')
+			if update:
+				print('Version', version, 'will be updated.')
+			else:
+				print('Version', version, 'is up to date.')
 	return to_update
 
 def run_build_tools(version_array, config):
@@ -100,6 +101,7 @@ def fetch_config():
 		temp_dict['username'] = ''
 		temp_dict['password'] = ''
 		temp_dict['nexus_url'] = ''
+		temp_dict['ignored_versions'] = list()
 		config = open('config.json', 'w')
 		config.write(json.dumps(temp_dict, indent=4, sort_keys=True))
 		config.close()
