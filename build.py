@@ -1,7 +1,6 @@
 #!/usr/bin/env python3.5
 
 from urllib import request
-from html.parser import HTMLParser
 import json
 import re
 from os import path
@@ -112,7 +111,6 @@ def main():
 	old_version_data = load_prev_version_info()
 	version_array = get_needed_updates(old_version_data, new_version_data)
 	successful_versions = run_build_tools(version_array, config)
-	# successful_versions = version_array
 
 	for version in successful_versions:
 		old_version_data[version] = new_version_data[version]
