@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.5
+#!/usr/bin/env python
 
 from urllib import request
 import json
@@ -111,7 +111,7 @@ def main():
 	config = fetch_config()
 	new_version_data = fetch_version_info(fetch_versions())
 	old_version_data = load_prev_version_info()
-	version_array = get_needed_updates(old_version_data, new_version_data)
+	version_array = get_needed_updates(old_version_data, new_version_data, config)
 	successful_versions = run_build_tools(version_array, config)
 
 	for version in successful_versions:
